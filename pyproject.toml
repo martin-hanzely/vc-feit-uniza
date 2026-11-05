@@ -1,0 +1,22 @@
+[project]
+name = "team-palette"
+version = "0.1.0"
+description = "A shared, colorblind-checked color palette and style for matplotlib"
+readme = "README.md"
+license = "MIT"
+authors = [
+    { name = "Martin Hanzely", email = "hanzely.martin@outlook.com" }
+]
+requires-python = ">=3.10"
+dependencies = [
+    "matplotlib>=3.8",
+]
+
+[build-system]
+requires = ["uv_build>=0.13.7,<0.14.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "numpy>=2.2.6",
+]
