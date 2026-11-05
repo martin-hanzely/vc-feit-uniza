@@ -12,13 +12,13 @@ A shared color palette and chart style for matplotlib, so our charts look consis
 With [uv](https://docs.astral.sh/uv/):
 
 ```bash
-uv add git+https://github.com/<OWNER>/team-palette
+uv add git+https://github.com/martin-hanzely/team-palette
 ```
 
 With pip:
 
 ```bash
-pip install git+https://github.com/<OWNER>/team-palette
+pip install git+https://github.com/martin-hanzely/team-palette
 ```
 
 ## Use
