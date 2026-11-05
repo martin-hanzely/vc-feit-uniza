@@ -2,12 +2,12 @@
 
 Quick start::
 
-    import team_palette
-    team_palette.use()          # light theme (or team_palette.use("dark"))
+    import vc_feit_uniza
+    vc_feit_uniza.use()          # light theme (or vc_feit_uniza.use("dark"))
 
     plt.plot(x, y)              # series colors come from the palette in fixed order
-    plt.imshow(z, cmap="team_seq")   # sequential (magnitude)
-    plt.imshow(d, cmap="team_div")   # diverging (above / below a midpoint)
+    plt.imshow(z, cmap="vc_seq")   # sequential (magnitude)
+    plt.imshow(d, cmap="vc_div")   # diverging (above / below a midpoint)
 """
 
 from __future__ import annotations
@@ -107,14 +107,14 @@ def colors(mode: Mode = "light") -> list[str]:
 
 
 def register_cmaps(mode: Mode = "light") -> None:
-    """Register `team_seq`, `team_div`, `team_cat` (+ `_r` versions) with matplotlib."""
+    """Register `vc_seq`, `vc_div`, `vc_cat` (+ `_r` versions) with matplotlib."""
     seq = [SEQUENTIAL[k] for k in sorted(SEQUENTIAL)]
     if mode == "dark":
         seq = seq[::-1]  # on dark, "more" reads as brighter
     maps = [
-        LinearSegmentedColormap.from_list("team_seq", seq),
-        LinearSegmentedColormap.from_list("team_div", DIVERGING[mode]),
-        ListedColormap(colors(mode), name="team_cat"),
+        LinearSegmentedColormap.from_list("vc_seq", seq),
+        LinearSegmentedColormap.from_list("vc_div", DIVERGING[mode]),
+        ListedColormap(colors(mode), name="vc_cat"),
     ]
     for cmap in maps:
         for c in (cmap, cmap.reversed()):
@@ -130,7 +130,7 @@ def use(mode: Mode = "light") -> None:
     mpl.rcParams.update(
         {
             "axes.prop_cycle": cycler(color=colors(mode)),
-            "image.cmap": "team_seq",
+            "image.cmap": "vc_seq",
             # surfaces
             "figure.facecolor": c["surface"],
             "axes.facecolor": c["surface"],

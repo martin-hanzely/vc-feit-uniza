@@ -1,5 +1,5 @@
 [project]
-name = "team-palette"
+name = "vc-feit-uniza"
 version = "0.1.0"
 description = "A shared, colorblind-checked color palette and style for matplotlib"
 readme = "README.md"

@@ -16,7 +16,7 @@ import numpy as np
 from matplotlib.colors import to_rgb
 from matplotlib.ticker import PercentFormatter
 
-import team_palette as tp
+import vc_feit_uniza as tp
 
 OUT = Path(__file__).resolve().parent.parent / "docs" / "img"
 FS = 100  # IMU sample rate (Hz)
@@ -82,8 +82,8 @@ def palette(mode):
     ax.set_xlim(0, 8)
     ax.set_ylim(0, 1)
     grad = np.linspace(0, 1, 256)[None, :]
-    for ax, cmap, title in ((axes[1], "team_seq", "Sequential: team_seq"),
-                            (axes[2], "team_div", "Diverging: team_div")):
+    for ax, cmap, title in ((axes[1], "vc_seq", "Sequential: vc_seq"),
+                            (axes[2], "vc_div", "Diverging: vc_div")):
         ax.imshow(grad, aspect="auto", cmap=cmap)
         ax.set_xticks([])
         ax.set_yticks([])
@@ -124,7 +124,7 @@ def spectrogram(mode):
     mag = np.linalg.norm(acc, axis=0)
     mag -= mag.mean()
     fig, ax = plt.subplots(figsize=(9, 3.8))
-    _, _, _, im = ax.specgram(mag, Fs=FS, NFFT=256, noverlap=224, cmap="team_seq",
+    _, _, _, im = ax.specgram(mag, Fs=FS, NFFT=256, noverlap=224, cmap="vc_seq",
                               scale="dB", vmin=-35)
     ax.set_ylim(0, 12)
     ax.set_xlabel("Time (s)")
@@ -181,7 +181,7 @@ def confusion(mode):
     cm[0, 5] += 45  # cells get mistaken for clusters
     cm[1, 4] += 30  # debris vs fiber
     cmn = cm / cm.sum(axis=1, keepdims=True)
-    cmap = plt.get_cmap("team_seq")
+    cmap = plt.get_cmap("vc_seq")
     fig, ax = plt.subplots(figsize=(6.4, 5.4))
     im = ax.imshow(cmn, cmap=cmap, vmin=0, vmax=1)
     for i in range(n):
@@ -248,7 +248,7 @@ def correlation(mode):
     data = np.vstack([acc, gyro, mag])
     names = ["acc x", "acc y", "acc z", "gyro x", "gyro y", "gyro z", "mag x"]
     corr = np.corrcoef(data)
-    cmap = plt.get_cmap("team_div")
+    cmap = plt.get_cmap("vc_div")
     fig, ax = plt.subplots(figsize=(6.6, 5.4))
     im = ax.imshow(corr, cmap=cmap, vmin=-1, vmax=1)
     for i in range(len(names)):
