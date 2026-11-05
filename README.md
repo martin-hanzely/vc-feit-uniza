@@ -49,42 +49,60 @@ plt.imshow(d, cmap="team_div", vmin=-m, vmax=m)       # above / below zero
 1. **Use the colors in their fixed order.** The order is what keeps neighbors distinguishable for colorblind readers. Don't shuffle them.
 2. **8 series max.** Don't invent a 9th color. Group the rest into "Other" or split into small multiples.
 3. **Scatter plots: 3 series max.** In a scatter, every color sits next to every other one, and only the first 3 stay distinguishable in all pairs.
-4. **A color belongs to its entity.** If "Vienna" is orange in one chart, keep it orange when you filter others out.
+4. **A color belongs to its entity.** If "debris" is orange in one chart, keep it orange when you plot a subset of classes.
 5. **Sequential is for magnitude, diverging is for above/below a midpoint.** Center diverging maps (`vmin=-m, vmax=m`).
 6. **Status colors (good / warning / serious / critical) are only for status,** and always come with a text label or icon.
 7. **Always add a legend or direct labels.** Color alone should never be the only way to tell series apart.
 
+### For our kind of data
+
+- **IMU / sensor signals:** x, y, z map to palette slots 1, 2, 3 everywhere. Put accelerometer and gyroscope in **separate panels with a shared time axis** (`plt.subplots(2, 1, sharex=True)`). Never use `twinx()`. For dense signals (≥100 Hz), `lw=1.2` reads better than the default 2 px.
+- **Spectrograms, confusion matrices, attention maps, intensity images:** `cmap="team_seq"`. For dB, clip the floor (`vmin`) so noise recedes.
+- **Correlations, residuals, signed errors, before/after differences:** `cmap="team_div"` with a symmetric range (`vmin=-1, vmax=1`).
+- **Training curves:** train is slot 1 and validation is slot 2. Loss and accuracy go in side-by-side panels, not on one twin-axis plot.
+- **Embeddings (t-SNE / UMAP) with many classes:** color at most 3 classes of interest and draw the rest in gray (`team_palette.CHROME[mode]["axis"]`), or facet into small multiples.
+
 ## Examples
 
-All charts below come from [`examples/make_examples.py`](examples/make_examples.py). Regenerate them with:
+The examples use synthetic data shaped like ours: IMU recordings, model training and image-classification results. They all come from [`examples/make_examples.py`](examples/make_examples.py), so copy from there. Regenerate them with:
 
 ```bash
 uv run python examples/make_examples.py
 ```
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/img/line-dark.png">
-  <img alt="Line chart" src="docs/img/line-light.png">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/img/imu-dark.png">
+  <img alt="IMU accelerometer and gyroscope signals, stacked panels on a shared time axis" src="docs/img/imu-light.png">
 </picture>
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/img/bars-dark.png">
-  <img alt="Grouped bar chart" src="docs/img/bars-light.png">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/img/spectrogram-dark.png">
+  <img alt="Spectrogram of acceleration magnitude (team_seq)" src="docs/img/spectrogram-light.png">
 </picture>
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/img/stacked-dark.png">
-  <img alt="Stacked horizontal bar chart" src="docs/img/stacked-light.png">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/img/training-dark.png">
+  <img alt="Training and validation loss and accuracy" src="docs/img/training-light.png">
 </picture>
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/img/scatter-dark.png">
-  <img alt="Scatter plot" src="docs/img/scatter-light.png">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/img/confusion-dark.png">
+  <img alt="Row-normalized confusion matrix (team_seq)" src="docs/img/confusion-light.png">
 </picture>
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/img/heatmaps-dark.png">
-  <img alt="Sequential and diverging heatmaps" src="docs/img/heatmaps-light.png">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/img/metrics-dark.png">
+  <img alt="Per-class precision, recall and F1" src="docs/img/metrics-light.png">
+</picture>
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/img/embedding-dark.png">
+  <img alt="UMAP feature embedding, 3 highlighted classes and the rest in gray" src="docs/img/embedding-light.png">
+</picture>
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/img/correlation-dark.png">
+  <img alt="Correlation matrix of IMU channels (team_div)" src="docs/img/correlation-light.png">
 </picture>
 
 ## Development
